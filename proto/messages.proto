@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+message Command {
+  required bool out_1 = 1;
+  required bool out_2 = 2;
+  optional int32 counter = 3;
+}
+
+message Status {
+  required bool in_1 = 1;
+  required bool in_2 = 2;
+  optional int32 counter = 3;
+}
