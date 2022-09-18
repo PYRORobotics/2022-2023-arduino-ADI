@@ -119,7 +119,7 @@ void loop() {
         Serial.print(print_buf);
     }
     else {
-        sprintf(print_buf, "%d bytes received: ", n);
+        /*sprintf(print_buf, "%d bytes received: ", n);
         Serial.print(print_buf);
 
         for (int j = 0; j < result.out_len; j++) {
@@ -128,14 +128,14 @@ void loop() {
         }
 
         sprintf(print_buf, "\n\r");
-        Serial.print(print_buf);
+        Serial.print(print_buf);*/
     }
 
     pb_istream_t istream = pb_istream_from_buffer((uint8_t *) decode_buff, (size_t) result.out_len);
     success = pb_decode(&istream, Command_fields, &command_tmp);
     if(success) {
-        sprintf(print_buf, "D1: %d, D2: %d\n\r", command_tmp.out_1, command_tmp.out_2);
-        Serial.print(print_buf);
+        /*sprintf(print_buf, "D1: %d, D2: %d\n\r", command_tmp.out_1, command_tmp.out_2);
+        Serial.print(print_buf);*/
         command = command_tmp;
         digitalWrite(3, LOW);
     }
