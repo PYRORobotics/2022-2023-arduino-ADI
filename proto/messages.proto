@@ -7,7 +7,11 @@ message Command {
 }
 
 message Status {
-  required bool in_1 = 1;
-  required bool in_2 = 2;
-  optional int32 counter = 3;
+  optional float heading = 3;
+  optional Pos pos = 4;
+}
+
+message Pos {
+  required float x = 1;
+  required float y = 2;
 }

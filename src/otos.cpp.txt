@@ -1,0 +1,352 @@
+#include "otos.hpp"
+#include "Arduino.h"
+#include "Wire.h"
+#include "proto/messages.pb.h"
+// #include <SparkFun_Qwiic_OTOS_Arduino_Library.h>
+
+// QwiicOTOS myOtos;
+/// @brief Default I2C addresses of the Qwiic OTOS
+static constexpr uint8_t addr = 0x17;
+static constexpr uint8_t _bufferChunkSize = 32;
+/// @brief Minimum scalar value for the linear and angular scalars
+static constexpr float kMinScalar = 0.872f;
+/// @brief Maximum scalar value for the linear and angular scalars
+static constexpr float kMaxScalar = 1.127f;
+
+// Conversion factors
+static constexpr float kMeterToInch = 39.37f;
+static constexpr float kInchToMeter = 1.0f / kMeterToInch;
+static constexpr float kRadianToDegree = 180.0f / M_PI;
+static constexpr float kDegreeToRadian = M_PI / 180.0f;
+
+// Conversion factor for the linear position registers. 16-bit signed
+// registers with a max value of 10 meters (394 inches) gives a resolution
+// of about 0.0003 mps (0.012 ips)
+static constexpr float kMeterToInt16 = 32768.0f / 10.0f;
+static constexpr float kInt16ToMeter = 1.0f / kMeterToInt16;
+// Conversion factor for the angular position registers. 16-bit signed
+// registers with a max value of pi radians (180 degrees) gives a resolution
+// of about 0.00096 radians (0.0055 degrees)
+static constexpr float kRadToInt16 = 32768.0f / M_PI;
+static constexpr float kInt16ToRad = 1.0f / kRadToInt16;
+
+// register map
+static constexpr uint8_t kRegProductId = 0x00;
+static constexpr uint8_t kRegHwVersion = 0x01;
+static constexpr uint8_t kRegFwVersion = 0x02;
+static constexpr uint8_t kRegScalarLinear = 0x04;
+static constexpr uint8_t kRegScalarAngular = 0x05;
+static constexpr uint8_t kRegImuCalib = 0x06;
+static constexpr uint8_t kRegReset = 0x07;
+static constexpr uint8_t kRegSignalProcess = 0x0E;
+static constexpr uint8_t kRegSelfTest = 0x0F;
+static constexpr uint8_t kRegOffXL = 0x10;
+static constexpr uint8_t kRegOffXH = 0x11;
+static constexpr uint8_t kRegOffYL = 0x12;
+static constexpr uint8_t kRegOffYH = 0x13;
+static constexpr uint8_t kRegOffHL = 0x14;
+static constexpr uint8_t kRegOffHH = 0x15;
+static constexpr uint8_t kRegStatus = 0x1F;
+static constexpr uint8_t kRegPosXL = 0x20;
+static constexpr uint8_t kRegPosXH = 0x21;
+static constexpr uint8_t kRegPosYL = 0x22;
+static constexpr uint8_t kRegPosYH = 0x23;
+static constexpr uint8_t kRegPosHL = 0x24;
+static constexpr uint8_t kRegPosHH = 0x25;
+static constexpr uint8_t kRegVelXL = 0x26;
+static constexpr uint8_t kRegVelXH = 0x27;
+static constexpr uint8_t kRegVelYL = 0x28;
+static constexpr uint8_t kRegVelYH = 0x29;
+static constexpr uint8_t kRegVelHL = 0x2A;
+static constexpr uint8_t kRegVelHH = 0x2B;
+static constexpr uint8_t kRegAccXL = 0x2C;
+static constexpr uint8_t kRegAccXH = 0x2D;
+static constexpr uint8_t kRegAccYL = 0x2E;
+static constexpr uint8_t kRegAccYH = 0x2F;
+static constexpr uint8_t kRegAccHL = 0x30;
+static constexpr uint8_t kRegAccHH = 0x31;
+static constexpr uint8_t kRegPosStdXL = 0x32;
+static constexpr uint8_t kRegPosStdXH = 0x33;
+static constexpr uint8_t kRegPosStdYL = 0x34;
+static constexpr uint8_t kRegPosStdYH = 0x35;
+static constexpr uint8_t kRegPosStdHL = 0x36;
+static constexpr uint8_t kRegPosStdHH = 0x37;
+static constexpr uint8_t kRegVelStdXL = 0x38;
+static constexpr uint8_t kRegVelStdXH = 0x39;
+static constexpr uint8_t kRegVelStdYL = 0x3A;
+static constexpr uint8_t kRegVelStdYH = 0x3B;
+static constexpr uint8_t kRegVelStdHL = 0x3C;
+static constexpr uint8_t kRegVelStdHH = 0x3D;
+static constexpr uint8_t kRegAccStdXL = 0x3E;
+static constexpr uint8_t kRegAccStdXH = 0x3F;
+static constexpr uint8_t kRegAccStdYL = 0x40;
+static constexpr uint8_t kRegAccStdYH = 0x41;
+static constexpr uint8_t kRegAccStdHL = 0x42;
+static constexpr uint8_t kRegAccStdHH = 0x43;
+// Product ID register value
+static constexpr uint8_t kProductId = 0x5F;
+
+//---------------------------------------------------------------------------------
+// readRegisterByte()
+//
+// Reads a byte to a given register.
+//
+// Returns true on success, false on failure
+//
+bool readRegisterByte(uint8_t devReg, uint8_t &dataToRead) {
+  // Return value
+  uint8_t result = 0;
+
+  int nData = 0;
+
+  Wire.beginTransmission(addr);
+  Wire.write(devReg);
+  Wire.endTransmission();
+  Wire.requestFrom(addr, (uint8_t)1);
+
+  while (Wire.available()) // slave may send less than requested
+  {
+    result = Wire.read(); // receive a byte as a proper uint8_t
+    nData++;
+  }
+
+  if (nData ==
+      sizeof(
+          uint8_t)) // Only update outputPointer if a single byte was returned
+    dataToRead = result;
+
+  return (nData == sizeof(uint8_t) ? true : false);
+}
+
+/**
+ * @brief Reads an array of bytes to a register on the target address. Supports
+ * any address size
+ *
+ * @param devReg The device's register's address - can be any size
+ * @param regLength The length of the register address
+ * @param data The data to buffer to read into
+ * @param numBytes The length of the data buffer
+ * @param readBytes[out] The number of bytes read
+ * @return sfeTkError_t Returns kSTkErrOk on success, or kSTkErrFail code
+ */
+bool readRegisterRegionAnyAddress(uint8_t *devReg, size_t regLength,
+                                  uint8_t *data, size_t numBytes,
+                                  size_t &readBytes) {
+  // Buffer valid?
+  if (!data)
+    return false;
+
+  readBytes = 0;
+
+  uint16_t nOrig = numBytes; // original number of bytes.
+  uint8_t nChunk;
+  uint16_t nReturned;
+  uint16_t i; // counter in loop
+  bool bFirstInter =
+      true; // Flag for first iteration - used to send devRegister
+
+  while (numBytes > 0) {
+    if (bFirstInter) {
+      Wire.beginTransmission(addr);
+
+      Wire.write(devReg, regLength);
+
+      if (Wire.endTransmission(false) != 0)
+        return false; // error with the end transmission
+
+      bFirstInter = false;
+    }
+
+    // We're chunking in data - keeping the max chunk to kMaxI2CBufferLength
+    nChunk = numBytes > _bufferChunkSize ? _bufferChunkSize : numBytes;
+
+    // Request the bytes. If this is the last chunk, always send a stop
+    nReturned = Wire.requestFrom((int)addr, (int)nChunk,
+                                 (int)(nChunk == numBytes ? true : false));
+
+    // No data returned, no dice
+    if (nReturned == 0)
+      return false; // error
+
+    // Copy the retrieved data chunk to the current index in the data segment
+    for (i = 0; i < nReturned; i++)
+      *data++ = Wire.read();
+
+    // Decrement the amount of data received from the overall data request
+    // amount
+    numBytes = numBytes - nReturned;
+
+  } // end while
+
+  readBytes = nOrig - numBytes; // Bytes read.
+
+  return (readBytes == nOrig) ? true : false; // Success
+}
+
+//---------------------------------------------------------------------------------
+// writeRegisterByte()
+//
+// Writes a byte to a given register.
+//
+// Returns true on success, false on failure
+//
+bool writeRegisterByte(uint8_t devReg, uint8_t dataToWrite) {
+  // do the Arduino I2C work
+  Wire.beginTransmission(addr);
+  Wire.write(devReg);
+  Wire.write(dataToWrite);
+  return Wire.endTransmission() == 0 ? true : false;
+}
+
+bool isConnected() {
+  // First ping the device address
+  Wire.beginTransmission(addr);
+  if (Wire.endTransmission() != 0)
+    return false;
+
+  // Read the product ID
+  uint8_t prodId;
+  if (!readRegisterByte(kRegProductId, prodId))
+    return false;
+
+  // Check if the product ID is correct
+  if (prodId != kProductId)
+    return false;
+
+  // Everything checks out, we must be connected!
+  return true;
+}
+
+bool calibrateImu(uint8_t numSamples = 255, bool waitUntilDone = true) {
+  // Write the number of samples to the device
+  if (!writeRegisterByte(kRegImuCalib, numSamples))
+    return false;
+
+  // Wait 1 sample period (2.4ms) to ensure the register updates
+  delay(3);
+
+  // Do we need to wait until the calibration finishes?
+  if (!waitUntilDone)
+    return true;
+
+  // Wait for the calibration to finish, which is indicated by the IMU
+  // calibration register reading zero, or until we reach the maximum number
+  // of read attempts
+  for (uint8_t numAttempts = numSamples; numAttempts > 0; numAttempts--) {
+    // Read the gryo calibration register value
+    uint8_t calibrationValue;
+    if (!readRegisterByte(kRegImuCalib, calibrationValue))
+      return false;
+
+    // Check if calibration is done
+    if (calibrationValue == 0)
+      return true;
+
+    // Give a short delay between reads. As of firmware v1.0, samples take
+    // 2.4ms each, so 3ms should guarantee the next sample is done. This
+    // also ensures the max attempts is not exceeded in normal operation
+    delay(3);
+  }
+
+  // Max number of attempts reached, calibration failed
+  return false;
+}
+
+bool resetTracking() {
+  // Set tracking reset bit
+  return writeRegisterByte(kRegReset, 0x01);
+}
+
+Pos pos = Pos_init_zero;
+float heading = 0.0;
+void regsToPose(uint8_t *rawData) {
+  // Store raw data
+  int16_t rawX = (rawData[1] << 8) | rawData[0];
+  int16_t rawY = (rawData[3] << 8) | rawData[2];
+  int16_t rawH = (rawData[5] << 8) | rawData[4];
+
+  // Store in pose and convert to units
+  pos.x = rawX * kInt16ToMeter * kMeterToInch;
+  pos.y = rawY * kInt16ToMeter * kMeterToInch;
+  heading = rawH * kInt16ToRad * kRadianToDegree;
+}
+
+bool readPoseRegs(uint8_t reg) {
+  size_t bytesRead;
+  uint8_t rawData[6];
+
+  // Attempt to read the raw pose data
+  bool err = readRegisterRegionAnyAddress(&reg, 1, rawData, 6, bytesRead);
+  if (!err)
+    return false;
+
+  // Check if we read the correct number of bytes
+  if (bytesRead != 6)
+    return false;
+
+  regsToPose(rawData);
+
+  // Done!
+  return true;
+}
+
+Status updateOTOS() {
+  // Get the latest position, which includes the x and y coordinates, plus the
+  // heading angle
+  bool success = readPoseRegs(kRegPosXL);
+
+  Status status = Status_init_zero;
+  // pose.x = myPosition.x;
+  // pose.y = myPosition.y;
+  // pose.heading = myPosition.h;
+  if (success) {
+    status.has_pos = true;
+    status.pos.x = pos.x;
+    status.pos.y = pos.y;
+    status.has_heading = true;
+    status.heading = heading;
+  }
+  return status;
+
+  // Print measurement
+  // Serial.println();
+  // Serial.println("Position:");
+  // Serial.print("X (Inches): ");
+  // Serial.println(myPosition.x);
+  // Serial.print("Y (Inches): ");
+  // Serial.println(myPosition.y);
+  // Serial.print("Heading (Degrees): ");
+  // Serial.println(myPosition.h);
+
+  // Wait a bit so we don't spam the serial port
+  // delay(500);
+}
+
+bool trySetupOTOS() {
+  // Attempt to begin the sensor
+  // Serial.println("hmm");
+  if (!isConnected())
+    return false;
+
+  // Serial.println("OTOS connected!");
+
+  // Serial.println("Ensure the OTOS is flat and stationary, then enter any key
+  // to calibrate the IMU");
+
+  // // Clear the serial buffer
+  // while (Serial.available())
+  //     Serial.read();
+  // // Wait for user input
+  // while (!Serial.available())
+  //     ;
+
+  // Serial.println("Calibrating IMU...");
+
+  // Calibrate the IMU, which removes the accelerometer and gyroscope offsets
+  calibrateImu();
+
+  // Reset the tracking algorithm - this resets the position to the origin,
+  // but can also be used to recover from some rare tracking errors
+  resetTracking();
+  return true;
+}
