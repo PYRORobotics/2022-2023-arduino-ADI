@@ -1,0 +1,236 @@
+[
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/CDC.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/CDC.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/CDC.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/CDC.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/HardwareSerial.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/HardwareSerial.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/HardwareSerial0.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial0.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial0.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/HardwareSerial0.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/HardwareSerial1.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial1.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial1.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/HardwareSerial1.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/HardwareSerial2.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial2.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial2.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/HardwareSerial2.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/HardwareSerial3.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial3.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial3.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/HardwareSerial3.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/IPAddress.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/IPAddress.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/IPAddress.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/IPAddress.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/PluggableUSB.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/PluggableUSB.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/PluggableUSB.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/PluggableUSB.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/Print.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/Print.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/Print.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/Print.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/Stream.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/Stream.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/Stream.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/Stream.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/Tone.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/Tone.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/Tone.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/Tone.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/USBCore.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/USBCore.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/USBCore.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/USBCore.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/FrameworkArduino/WInterrupts.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/WInterrupts.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/WInterrupts.c",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/WInterrupts.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/WMath.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/WMath.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/WMath.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/WMath.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/WString.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/WString.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/WString.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/WString.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/abi.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/abi.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/abi.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/abi.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/FrameworkArduino/hooks.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/hooks.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/hooks.c",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/hooks.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/main.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/main.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/main.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/main.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/FrameworkArduino/new.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/new.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/new.cpp",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/new.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/FrameworkArduino/wiring.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring.c",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/wiring.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/FrameworkArduino/wiring_analog.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_analog.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_analog.c",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/wiring_analog.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/FrameworkArduino/wiring_digital.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_digital.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_digital.c",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/wiring_digital.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -mmcu=atmega328p -x assembler-with-cpp -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs -c -o .pio/build/nanoatmega328new/FrameworkArduino/wiring_pulse.S.o /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_pulse.S",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_pulse.S",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/wiring_pulse.S.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/FrameworkArduino/wiring_pulse.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_pulse.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_pulse.c",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/wiring_pulse.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/FrameworkArduino/wiring_shift.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_shift.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_shift.c",
+        "output": ".pio/build/nanoatmega328new/FrameworkArduino/wiring_shift.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/lib401/Nanopb/pb_common.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio/libdeps/nanoatmega328new/Nanopb -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs .pio/libdeps/nanoatmega328new/Nanopb/pb_common.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": ".pio/libdeps/nanoatmega328new/Nanopb/pb_common.c",
+        "output": ".pio/build/nanoatmega328new/lib401/Nanopb/pb_common.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/lib401/Nanopb/pb_decode.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio/libdeps/nanoatmega328new/Nanopb -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs .pio/libdeps/nanoatmega328new/Nanopb/pb_decode.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": ".pio/libdeps/nanoatmega328new/Nanopb/pb_decode.c",
+        "output": ".pio/build/nanoatmega328new/lib401/Nanopb/pb_decode.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/lib401/Nanopb/pb_encode.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio/libdeps/nanoatmega328new/Nanopb -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs .pio/libdeps/nanoatmega328new/Nanopb/pb_encode.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": ".pio/libdeps/nanoatmega328new/Nanopb/pb_encode.c",
+        "output": ".pio/build/nanoatmega328new/lib401/Nanopb/pb_encode.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/lib753/nanopb-arduino/pb_arduino.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio/libdeps/nanoatmega328new/nanopb-arduino/src -I.pio/libdeps/nanoatmega328new/Nanopb -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs .pio/libdeps/nanoatmega328new/nanopb-arduino/src/pb_arduino.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": ".pio/libdeps/nanoatmega328new/nanopb-arduino/src/pb_arduino.cpp",
+        "output": ".pio/build/nanoatmega328new/lib753/nanopb-arduino/pb_arduino.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/lib103/Wire/Wire.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src/Wire.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src/Wire.cpp",
+        "output": ".pio/build/nanoatmega328new/lib103/Wire/Wire.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/lib103/Wire/utility/twi.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src/utility/twi.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src/utility/twi.c",
+        "output": ".pio/build/nanoatmega328new/lib103/Wire/utility/twi.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/lib2b6/SPI/SPI.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs /home/alessandro/.platformio/packages/framework-arduino-avr/libraries/SPI/src/SPI.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/SPI/src/SPI.cpp",
+        "output": ".pio/build/nanoatmega328new/lib2b6/SPI/SPI.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o \".pio/build/nanoatmega328new/lib5be/SparkFun Toolkit/sfeTkArdI2C.cpp.o\" -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 \"-I.pio/libdeps/nanoatmega328new/SparkFun Toolkit/src\" -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs \".pio/libdeps/nanoatmega328new/SparkFun Toolkit/src/sfeTkArdI2C.cpp\"",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": ".pio/libdeps/nanoatmega328new/SparkFun Toolkit/src/sfeTkArdI2C.cpp",
+        "output": ".pio/build/nanoatmega328new/lib5be/SparkFun Toolkit/sfeTkArdI2C.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o \".pio/build/nanoatmega328new/lib5be/SparkFun Toolkit/sfeTkArdSPI.cpp.o\" -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 \"-I.pio/libdeps/nanoatmega328new/SparkFun Toolkit/src\" -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs \".pio/libdeps/nanoatmega328new/SparkFun Toolkit/src/sfeTkArdSPI.cpp\"",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": ".pio/libdeps/nanoatmega328new/SparkFun Toolkit/src/sfeTkArdSPI.cpp",
+        "output": ".pio/build/nanoatmega328new/lib5be/SparkFun Toolkit/sfeTkArdSPI.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o \".pio/build/nanoatmega328new/lib1c9/SparkFun Qwiic OTOS Arduino Library/sfeQwiicOtos.cpp.o\" -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 \"-I.pio/libdeps/nanoatmega328new/SparkFun Qwiic OTOS Arduino Library/src\" \"-I.pio/libdeps/nanoatmega328new/SparkFun Toolkit/src\" -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs \".pio/libdeps/nanoatmega328new/SparkFun Qwiic OTOS Arduino Library/src/sfeQwiicOtos.cpp\"",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": ".pio/libdeps/nanoatmega328new/SparkFun Qwiic OTOS Arduino Library/src/sfeQwiicOtos.cpp",
+        "output": ".pio/build/nanoatmega328new/lib1c9/SparkFun Qwiic OTOS Arduino Library/sfeQwiicOtos.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/src/cobs/cobs.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc \"-I.pio/libdeps/nanoatmega328new/SparkFun Qwiic OTOS Arduino Library/src\" \"-I.pio/libdeps/nanoatmega328new/SparkFun Toolkit/src\" -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I.pio/libdeps/nanoatmega328new/PacketIO/src -I.pio/libdeps/nanoatmega328new/nanopb-arduino/src -I.pio/libdeps/nanoatmega328new/PacketSerial/src -I.pio/libdeps/nanoatmega328new/Nanopb -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs src/cobs/cobs.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "src/cobs/cobs.c",
+        "output": ".pio/build/nanoatmega328new/src/cobs/cobs.c.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/src/main.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc \"-I.pio/libdeps/nanoatmega328new/SparkFun Qwiic OTOS Arduino Library/src\" \"-I.pio/libdeps/nanoatmega328new/SparkFun Toolkit/src\" -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I.pio/libdeps/nanoatmega328new/PacketIO/src -I.pio/libdeps/nanoatmega328new/nanopb-arduino/src -I.pio/libdeps/nanoatmega328new/PacketSerial/src -I.pio/libdeps/nanoatmega328new/Nanopb -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs src/main.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "src/main.cpp",
+        "output": ".pio/build/nanoatmega328new/src/main.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/nanoatmega328new/src/otos.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc \"-I.pio/libdeps/nanoatmega328new/SparkFun Qwiic OTOS Arduino Library/src\" \"-I.pio/libdeps/nanoatmega328new/SparkFun Toolkit/src\" -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I.pio/libdeps/nanoatmega328new/PacketIO/src -I.pio/libdeps/nanoatmega328new/nanopb-arduino/src -I.pio/libdeps/nanoatmega328new/PacketSerial/src -I.pio/libdeps/nanoatmega328new/Nanopb -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs src/otos.cpp",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "src/otos.cpp",
+        "output": ".pio/build/nanoatmega328new/src/otos.cpp.o"
+    },
+    {
+        "command": "/home/alessandro/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/nanoatmega328new/src/proto/messages.pb.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60117 -DARDUINO_AVR_NANO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc \"-I.pio/libdeps/nanoatmega328new/SparkFun Qwiic OTOS Arduino Library/src\" \"-I.pio/libdeps/nanoatmega328new/SparkFun Toolkit/src\" -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/alessandro/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I.pio/libdeps/nanoatmega328new/PacketIO/src -I.pio/libdeps/nanoatmega328new/nanopb-arduino/src -I.pio/libdeps/nanoatmega328new/PacketSerial/src -I.pio/libdeps/nanoatmega328new/Nanopb -I/home/alessandro/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/alessandro/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs src/proto/messages.pb.c",
+        "directory": "/home/alessandro/Documents/Robot Stuff/2024_vex_code/2022-2023-arduino-ADI",
+        "file": "src/proto/messages.pb.c",
+        "output": ".pio/build/nanoatmega328new/src/proto/messages.pb.c.o"
+    }
+]
