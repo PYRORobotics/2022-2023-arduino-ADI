@@ -57,8 +57,13 @@ bool trySetupOTOS() {
   // // Wait for user input
   // while (!Serial.available())
   //     ;
+  otos.setAngularScalar(0.999977778272);
+  // otos.setLinearScalar(1.127);
+  otos.setLinearScalar(0.961484917851);
+  // otos.setAngularScalar(1);
 
-  // Serial.println("Calibrating IMU...");
+  // delay(2000);
+  Serial.println("Calibrating IMU...");
 
   // Calibrate the IMU, which removes the accelerometer and gyroscope offsets
   otos.calibrateImu();

@@ -1,0 +1,45 @@
+#include "Arduino.h"
+#include "Wire.h"
+
+#define DE 9
+#define RE 8
+#define SEND HIGH
+#define RECEIVE LOW
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(DE, OUTPUT);
+  pinMode(RE, OUTPUT);
+}
+
+char buf[100];
+
+void loop() {
+  while (!Serial.availableForWrite()) {
+    delayMicroseconds(10);
+  }
+  digitalWrite(DE, SEND);
+  digitalWrite(RE, SEND);
+  Serial.write('1');
+  Serial.write('F');
+  Serial.write('\0');
+  digitalWrite(DE, RECEIVE);
+  digitalWrite(RE, RECEIVE);
+  while (!Serial.available()) {
+    delayMicroseconds(10);
+  }
+  if (Serial.available()) {
+    int n = Serial.readBytesUntil('\0', buf, 100);
+    n = min(n, 10);
+    if (n > 0) {
+      Serial.print("Received: ");
+      Serial.print(n);
+      Serial.print(" ");
+      for (int i = 0; i < n; n++ ){
+        Serial.print(buf[i]);
+      }
+      Serial.print("\n");
+    }
+  }
+  //   delay(100);
+}
