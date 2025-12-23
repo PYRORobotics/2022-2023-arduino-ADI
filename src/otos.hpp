@@ -1,5 +1,10 @@
 #include "proto/messages.pb.h"
 
-Status updateOTOS();
+struct OTOSResult {
+    Status status;
+    int code;
+  };
 
-bool trySetupOTOS();
+OTOSResult updateOTOS();
+
+bool trySetupOTOS(bool calibrate = true);

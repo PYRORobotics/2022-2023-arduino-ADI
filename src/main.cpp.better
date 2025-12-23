@@ -1,0 +1,94 @@
+#include "Arduino.h"
+#include "Wire.h"
+
+#define DE 9
+#define RE 8
+#define SEND HIGH
+#define RECEIVE LOW
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(DE, OUTPUT);
+  pinMode(RE, OUTPUT);
+  
+  // Start in receive mode
+  digitalWrite(DE, RECEIVE);
+  digitalWrite(RE, RECEIVE);
+  
+  // Debug message on startup
+  Serial.println("Arduino ready for communication");
+}
+
+char buf[255]; // Increased buffer size to match VEX code
+unsigned long lastReceiveTime = 0;
+
+void loop() {
+  // Always be in receive mode (for debugging)
+  digitalWrite(DE, RECEIVE);
+  digitalWrite(RE, RECEIVE);
+  
+  // Check if data is available
+  if (Serial.available() > 0) {
+    // Capture start time for timing analysis
+    unsigned long startTime = millis();
+    lastReceiveTime = startTime;
+    
+    // Read all available bytes
+    int n = 0;
+    while (Serial.available() && n < 254) {
+      buf[n] = Serial.read();
+      n++;
+      delayMicroseconds(100); // Give time for more bytes to arrive
+    }
+    
+    // Print received data in detail
+    Serial.print("Received ");
+    Serial.print(n);
+    Serial.print(" bytes at millis(): ");
+    Serial.println(startTime);
+    
+    // Print each byte in hex and decimal for better debugging
+    for (int i = 0; i < n; i++) {
+      Serial.print("Byte ");
+      Serial.print(i);
+      Serial.print(": 0x");
+      Serial.print(buf[i] & 0xFF, HEX);
+      Serial.print(" (");
+      Serial.print(buf[i] & 0xFF, DEC);
+      Serial.print(") ASCII: ");
+      
+      // Print ASCII if it's printable
+      if (buf[i] >= 32 && buf[i] <= 126) {
+        Serial.write(buf[i]);
+      } else {
+        Serial.print("non-printable");
+      }
+      Serial.println();
+    }
+    
+    // Add a visual separator between messages
+    Serial.println("------------------------");
+  }
+  
+  // If we haven't received anything in 5 seconds, send a ping
+  // if (millis() - lastReceiveTime > 5000) {
+    // lastReceiveTime = millis();
+    
+    // Switch to send mode
+    // digitalWrite(DE, SEND);
+    // digitalWrite(RE, SEND);
+    // delayMicroseconds(100); // Allow time for the direction switch
+    
+    // // Send a simple identifiable message
+    // Serial.write("ARDUINO");
+    // Serial.write("PEEPEE\0");
+    // Serial.flush(); // Make sure all data is transmitted
+    
+    // Switch back to receive mode
+    // delayMicroseconds(100); // Allow time for last byte to transmit
+    // digitalWrite(DE, RECEIVE);
+    // digitalWrite(RE, RECEIVE);
+    
+    // Serial.println("Sent ping message");
+  // }
+}

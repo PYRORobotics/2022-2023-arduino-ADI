@@ -21,16 +21,19 @@ uint8_t data[512];
 #define ITERATION_DELAY_MS 10
 #define NAVX_SENSOR_DEVICE_I2C_ADDRESS_7BIT 0x32
 #define NUM_BYTES_TO_READ 8
+#define MAX_READ_TIME 10000
 
-packetio::COBSStream cobs_in(Serial);
+// packetio::COBSStream cobs_in(Serial);
 // pb_istream_s pb_in = as_pb_istream(cobs_in);
 
-packetio::COBSPrint cobs_out(Serial);
+// packetio::COBSPrint cobs_out(Serial);
 // pb_ostream_s pb_out = as_pb_ostream(cobs_out);
 // pb_ostream_s pb_out = as_pb_ostream(Serial);
 
 Command command = Command_init_zero;
 bool otosInitialized = false;
+bool hasCalibrated = false;
+unsigned long sparkfunTimeout = millis();
 void setup() {
   Serial.begin(115200);
   pinMode(DE, OUTPUT);
@@ -39,15 +42,19 @@ void setup() {
   pinMode(6, OUTPUT);
   pinMode(7, OUTPUT);
   Wire.begin();
+  delay(5000);
   otosInitialized = trySetupOTOS();
+  if (otosInitialized) {
+    hasCalibrated = true;
+    sparkfunTimeout = millis();
+  }
   Serial.println("setup!");
 }
 // int32_t i = 5;
 char encode_buff[30];
 char decode_buff[30];
 char buff_cobs[30];
-char padding[5] = {0};
-// char print_buff[20];
+char print_buff[20];
 void readWrite(Status status) {
   // send data////////////////////////////////////
   // sprintf(print_buf, "empty send buf size: %d\n\r", serial_free);
@@ -95,34 +102,11 @@ void readWrite(Status status) {
   buff_cobs[encodeResult.out_len] = '\0';
   // Serial.println(encodeResult.out_len + 1);
   // delay(500);
-  Serial.write((uint8_t *)&padding, 2);
   Serial.write((uint8_t *)&buff_cobs, encodeResult.out_len + 1);
   // delay(2);
+  // cobs_in.flush();
   Serial.flush();
-  // Serial.println(encodeResult.out_len);
-
-  /*for(int j = 0; j < pb_out.bytes_written; j++){
-      if(!cobs_out.write(encode_buff[j])){
-          write_success = false;
-      }
-  }*/
-  //  printf("sent %d COBS-encoded bytes: ", encodeResult.out_len);
-  //  for(int j = 0; j < encodeResult.out_len; j++){
-  //      if (j > 0) printf(":");
-  //      printf("%02X", buff_cobs[j]);
-  //  }
-  //  printf("\n");
-  // print_buff[0] = '\0';
-  // for (unsigned int i = 0; i < encodeResult.out_len; i++) {
-  //   sprintf(print_buff + strlen(print_buff), "%02X:", buff_cobs[i]);
-  // }
-  // sprintf(print_buff + strlen(print_buff), "\n");
-  // Serial.print(print_buff);
-
-  /*if(!cobs_out.write('\0')){
-      write_success = false;
-  }*/
-  cobs_out.end();
+  // cobs_out.end();
 
   if (!write_success) {
     digitalWrite(3, HIGH);
@@ -133,6 +117,11 @@ void readWrite(Status status) {
   } else {
     digitalWrite(3, LOW);
   }
+
+  // delayMicroseconds(100);
+  // while (Serial.available()) {
+  //   Serial.read();
+  // }
   // delayMicroseconds(200); //TODO: this should instead be a wait until the tx
   // buffer is empty delayMicroseconds(500); //TODO: this should instead be a
   // wait until the tx buffer is empty
@@ -143,49 +132,43 @@ void readWrite(Status status) {
   digitalWrite(RE, RECEIVE);
 
   Command command_tmp = Command_init_zero;
-  cobs_in.flush();
   char read_buff[100];
-  unsigned long startTime = millis();
+  unsigned long startTime = micros();
 
-  while (!Serial.available() && millis() - startTime < 100) {
-  }
-
-  // int n = Serial.readBytesUntil('\0', read_buff, sizeof(read_buff));
   unsigned int n = 0;
   bool done = false;
-  while (Serial.available()) {
-    // read until we get something
-    // int c = cobs_in.read();
-    int c = Serial.read();
-    if (done)
-      continue;
-    // if(c == packetio::COBSStream::EOF) {
-    if (c == -1) {
-      continue;
-    }
-
-    // detect End Of Packet
-    // if(c == packetio::COBSStream::EOP && n>0) break;
-    if (c == '\0') {
-      if (n > 2) {
-        done = true;
-      }
-      continue;
-    }
-
-    if (n >= 100) {
-      done = true;
-      continue;
-    }
-
-    // save anything else
-    read_buff[n++] = c;
+  while (Serial.available() == 0 && micros() - startTime < MAX_READ_TIME) {
+    delay(1);
   }
+  while (!done && micros() - startTime < MAX_READ_TIME) {
+    while (!done && Serial.available() > 0) {
+      if (micros() - startTime >= MAX_READ_TIME)
+        break;
+      byte byte = Serial.read();
+      // printf("waiting for byte\n");
+      read_buff[n] = byte;
+      // printf("received a byte: %02X\n", byte);
+      n++;
+      if (byte == '\0' || n >= 100) {
+        done = true;
+        break;
+      }
+    }
+    if (done)
+      break;
+    while (Serial.available() == 0 && micros() - startTime < MAX_READ_TIME) {
+    }
+  }
+
+  if (n == 0) return;
+
   // cobs_in.next();
   cobs_decode_result result =
-      cobs_decode(&decode_buff, sizeof(decode_buff), &read_buff, n);
+      cobs_decode(&decode_buff, sizeof(decode_buff), &read_buff, n - 1);
 
   if (result.status != COBS_DECODE_OK) {
+    Serial.println("cobs decode failed :(");
+    delay(5000);
     return;
     // sprintf(print_buf, "cobs fail status: %\n\r", result.status);
     // Serial.println("nuh uh");
@@ -198,6 +181,15 @@ void readWrite(Status status) {
     // sprintf(print_buff + strlen(print_buff), "\n");
     // Serial.print(print_buff);
   } else {
+    // Serial.println("nuh uh");
+    // Serial.print(n);
+    // Serial.println(" bytes received?");
+    // print_buff[0] = '\0';
+    // for (unsigned int i = 0; i < n; i++) {
+    //   sprintf(print_buff + strlen(print_buff), "%02X:", read_buff[i]);
+    // }
+    // sprintf(print_buff + strlen(print_buff), "\n");
+    // Serial.print(print_buff);
     // if (n > 0) {
     //   Serial.println(n);
     //   Serial.println(" bytes received");
@@ -244,10 +236,24 @@ void loop() {
   // status.has_heading = true;
   // status.heading = 69;
 
+  // Serial.println(otosInitialized);
   if (otosInitialized) {
-    status = updateOTOS();
+    auto result = updateOTOS();
+    status = result.status;
+    if (result.code != 0) {
+      if (millis() - sparkfunTimeout > 500) {
+        otosInitialized = false;
+      }
+    } else {
+      sparkfunTimeout = millis();
+    }
   } else {
-    otosInitialized = trySetupOTOS();
+    Serial.println("trying to recover!");
+    otosInitialized = trySetupOTOS(!hasCalibrated);
+    if (otosInitialized && !hasCalibrated) {
+      hasCalibrated = true;
+      sparkfunTimeout = millis();
+    }
   }
 
   // Serial.println(status.has_pos);

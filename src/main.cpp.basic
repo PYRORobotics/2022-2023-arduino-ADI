@@ -1,0 +1,66 @@
+//
+// Created by charles on 9/13/22.
+//
+#include "Arduino.h"
+#include "Wire.h"
+#include "cobs/cobs.h"
+#include "otos.hpp"
+#include "proto/messages.pb.h"
+#include <cobs/Print.h>
+#include <cobs/Stream.h>
+#include <pb_arduino.h>
+#include <stdio.h>
+
+#define DE 9
+#define RE 8
+#define SEND HIGH
+#define RECEIVE LOW
+
+uint8_t data[512];
+
+#define ITERATION_DELAY_MS 10
+#define NAVX_SENSOR_DEVICE_I2C_ADDRESS_7BIT 0x32
+#define NUM_BYTES_TO_READ 8
+
+packetio::COBSStream cobs_in(Serial);
+// pb_istream_s pb_in = as_pb_istream(cobs_in);
+
+packetio::COBSPrint cobs_out(Serial);
+// pb_ostream_s pb_out = as_pb_ostream(cobs_out);
+// pb_ostream_s pb_out = as_pb_ostream(Serial);
+
+Command command = Command_init_zero;
+bool otosInitialized = false;
+bool hasCalibrated = false;
+unsigned long sparkfunTimeout = millis();
+void setup() {
+  Serial.begin(115200);
+  pinMode(DE, OUTPUT);
+  pinMode(RE, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  Wire.begin();
+  Serial.println("setup!");
+}
+
+void loop() {
+  // status.has_heading = true;
+  // status.heading = 69;
+  // Serial.println(status.has_pos);
+  // Serial.println(status.pos.x);
+  // Serial.println(status.pos.y);
+  // Serial.println(status.heading);
+  // Serial.print("\n\n");
+  digitalWrite(DE, RECEIVE);
+  digitalWrite(RE, RECEIVE);
+  if (Serial.available() > 0) {
+    Serial.print(Serial.read());
+    Serial.println("happy");
+  } else {
+    Serial.println("sad");
+  }
+  // Serial.println("hello world!");
+
+  delay(1000);
+}

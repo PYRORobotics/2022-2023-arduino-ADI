@@ -7,7 +7,7 @@
 
 QwiicOTOS otos;
 
-Status updateOTOS() {
+OTOSResult updateOTOS() {
   // Get the latest position, which includes the x and y coordinates, plus the
   // heading angle
   sfe_otos_pose2d_t pose;
@@ -24,7 +24,7 @@ Status updateOTOS() {
     status.has_heading = true;
     status.heading = pose.h;
   }
-  return status;
+  return OTOSResult{status, success};
 
   // Print measurement
   // Serial.println();
@@ -40,7 +40,7 @@ Status updateOTOS() {
   // delay(500);
 }
 
-bool trySetupOTOS() {
+bool trySetupOTOS(bool calibrate) {
   // Attempt to begin the sensor
   // Serial.println("hmm");
   if (otos.begin() == false)
@@ -57,19 +57,25 @@ bool trySetupOTOS() {
   // // Wait for user input
   // while (!Serial.available())
   //     ;
-  otos.setAngularScalar(0.999977778272);
+
+  otos.setAngularScalar(0.992283447043);
+  //0.992283447043 24in
+  //0.999977778272 15in  
+
   // otos.setLinearScalar(1.127);
   otos.setLinearScalar(0.961484917851);
   // otos.setAngularScalar(1);
 
   // delay(2000);
-  Serial.println("Calibrating IMU...");
+  if (calibrate) {
+    Serial.println("Calibrating IMU...");
 
-  // Calibrate the IMU, which removes the accelerometer and gyroscope offsets
-  otos.calibrateImu();
+    // Calibrate the IMU, which removes the accelerometer and gyroscope offsets
+    otos.calibrateImu();
 
-  // Reset the tracking algorithm - this resets the position to the origin,
-  // but can also be used to recover from some rare tracking errors
-  otos.resetTracking();
+    // Reset the tracking algorithm - this resets the position to the origin,
+    // but can also be used to recover from some rare tracking errors
+    otos.resetTracking();
+  }
   return true;
 }

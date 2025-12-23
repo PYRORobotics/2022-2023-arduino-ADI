@@ -13,30 +13,36 @@ void setup() {
 }
 
 char buf[100];
-
+char print[10] = {0};
 void loop() {
-  while (!Serial.availableForWrite()) {
-    delayMicroseconds(10);
-  }
-  digitalWrite(DE, SEND);
-  digitalWrite(RE, SEND);
-  Serial.write('1');
-  Serial.write('F');
-  Serial.write('\0');
+  // while (!Serial.availableForWrite()) {
+  //   delayMicroseconds(10);
+  // }
+  // digitalWrite(DE, SEND);
+  // digitalWrite(RE, SEND);
+  // Serial.write('1');
+  // Serial.write('F');
+  // Serial.write('\0');
   digitalWrite(DE, RECEIVE);
   digitalWrite(RE, RECEIVE);
   while (!Serial.available()) {
     delayMicroseconds(10);
   }
   if (Serial.available()) {
-    int n = Serial.readBytesUntil('\0', buf, 100);
+    int n = 0;
+    while (Serial.available()) {
+      buf[n] = Serial.read();
+      n++;
+    }
+    // int n = Serial.readBytesUntil('\0', buf, 100);
     n = min(n, 10);
     if (n > 0) {
       Serial.print("Received: ");
       Serial.print(n);
       Serial.print(" ");
-      for (int i = 0; i < n; n++ ){
-        Serial.print(buf[i]);
+      for (int i = 0; i < n; i++) {
+        sprintf(print, "%02X:", buf[i]);
+        Serial.print(print);
       }
       Serial.print("\n");
     }
