@@ -1,15 +1,20 @@
 syntax = "proto2";
 
 message Command {
-  required bool reset = 1;
+  optional bool calibrate = 1;
+  optional bool reset = 2;
+  optional SensorScalar scalar = 3;
+  optional Pose offset = 4;
+  optional Pose set_pose = 5;
 }
 
-message Status {
-  optional float heading = 3;
-  optional Pos pos = 4;
+message SensorScalar {
+  required float linear = 1;
+  required float angular = 2;
 }
 
-message Pos {
+message Pose {
   required float x = 1;
   required float y = 2;
+  required float heading = 3;
 }

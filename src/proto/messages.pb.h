@@ -10,21 +10,29 @@
 #endif
 
 /* Struct definitions */
-typedef struct _Command {
-    bool reset;
-} Command;
+typedef struct _SensorScalar {
+    float linear;
+    float angular;
+} SensorScalar;
 
-typedef struct _Pos {
+typedef struct _Pose {
     float x;
     float y;
-} Pos;
-
-typedef struct _Status {
-    bool has_heading;
     float heading;
-    bool has_pos;
-    Pos pos;
-} Status;
+} Pose;
+
+typedef struct _Command {
+    bool has_calibrate;
+    bool calibrate;
+    bool has_reset;
+    bool reset;
+    bool has_scalar;
+    SensorScalar scalar;
+    bool has_offset;
+    Pose offset;
+    bool has_set_pose;
+    Pose set_pose;
+} Command;
 
 
 #ifdef __cplusplus
@@ -32,53 +40,65 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define Command_init_default                     {0}
-#define Status_init_default                      {false, 0, false, Pos_init_default}
-#define Pos_init_default                         {0, 0}
-#define Command_init_zero                        {0}
-#define Status_init_zero                         {false, 0, false, Pos_init_zero}
-#define Pos_init_zero                            {0, 0}
+#define Command_init_default                     {false, 0, false, 0, false, SensorScalar_init_default, false, Pose_init_default, false, Pose_init_default}
+#define SensorScalar_init_default                {0, 0}
+#define Pose_init_default                        {0, 0, 0}
+#define Command_init_zero                        {false, 0, false, 0, false, SensorScalar_init_zero, false, Pose_init_zero, false, Pose_init_zero}
+#define SensorScalar_init_zero                   {0, 0}
+#define Pose_init_zero                           {0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define Command_reset_tag                        1
-#define Pos_x_tag                                1
-#define Pos_y_tag                                2
-#define Status_heading_tag                       3
-#define Status_pos_tag                           4
+#define SensorScalar_linear_tag                  1
+#define SensorScalar_angular_tag                 2
+#define Pose_x_tag                               1
+#define Pose_y_tag                               2
+#define Pose_heading_tag                         3
+#define Command_calibrate_tag                    1
+#define Command_reset_tag                        2
+#define Command_scalar_tag                       3
+#define Command_offset_tag                       4
+#define Command_set_pose_tag                     5
 
 /* Struct field encoding specification for nanopb */
 #define Command_FIELDLIST(X, a) \
-X(a, STATIC,   REQUIRED, BOOL,     reset,             1)
+X(a, STATIC,   OPTIONAL, BOOL,     calibrate,         1) \
+X(a, STATIC,   OPTIONAL, BOOL,     reset,             2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  scalar,            3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  offset,            4) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  set_pose,          5)
 #define Command_CALLBACK NULL
 #define Command_DEFAULT NULL
+#define Command_scalar_MSGTYPE SensorScalar
+#define Command_offset_MSGTYPE Pose
+#define Command_set_pose_MSGTYPE Pose
 
-#define Status_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, FLOAT,    heading,           3) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  pos,               4)
-#define Status_CALLBACK NULL
-#define Status_DEFAULT NULL
-#define Status_pos_MSGTYPE Pos
+#define SensorScalar_FIELDLIST(X, a) \
+X(a, STATIC,   REQUIRED, FLOAT,    linear,            1) \
+X(a, STATIC,   REQUIRED, FLOAT,    angular,           2)
+#define SensorScalar_CALLBACK NULL
+#define SensorScalar_DEFAULT NULL
 
-#define Pos_FIELDLIST(X, a) \
+#define Pose_FIELDLIST(X, a) \
 X(a, STATIC,   REQUIRED, FLOAT,    x,                 1) \
-X(a, STATIC,   REQUIRED, FLOAT,    y,                 2)
-#define Pos_CALLBACK NULL
-#define Pos_DEFAULT NULL
+X(a, STATIC,   REQUIRED, FLOAT,    y,                 2) \
+X(a, STATIC,   REQUIRED, FLOAT,    heading,           3)
+#define Pose_CALLBACK NULL
+#define Pose_DEFAULT NULL
 
 extern const pb_msgdesc_t Command_msg;
-extern const pb_msgdesc_t Status_msg;
-extern const pb_msgdesc_t Pos_msg;
+extern const pb_msgdesc_t SensorScalar_msg;
+extern const pb_msgdesc_t Pose_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define Command_fields &Command_msg
-#define Status_fields &Status_msg
-#define Pos_fields &Pos_msg
+#define SensorScalar_fields &SensorScalar_msg
+#define Pose_fields &Pose_msg
 
 /* Maximum encoded size of messages (where known) */
-#define Command_size                             2
-#define MESSAGES_PB_H_MAX_SIZE                   Status_size
-#define Pos_size                                 10
-#define Status_size                              17
+#define Command_size                             50
+#define MESSAGES_PB_H_MAX_SIZE                   Command_size
+#define Pose_size                                15
+#define SensorScalar_size                        10
 
 #ifdef __cplusplus
 } /* extern "C" */

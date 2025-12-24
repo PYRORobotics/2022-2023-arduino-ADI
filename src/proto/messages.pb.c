@@ -9,10 +9,10 @@
 PB_BIND(Command, Command, AUTO)
 
 
-PB_BIND(Status, Status, AUTO)
+PB_BIND(SensorScalar, SensorScalar, AUTO)
 
 
-PB_BIND(Pos, Pos, AUTO)
+PB_BIND(Pose, Pose, AUTO)
 
 
 

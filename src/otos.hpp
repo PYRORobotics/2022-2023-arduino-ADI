@@ -1,10 +1,16 @@
+#include "SparkFun_Qwiic_OTOS_Arduino_Library.h"
 #include "proto/messages.pb.h"
+#pragma once
 
 struct OTOSResult {
-    Status status;
+    Pose pose;
     int code;
   };
 
 OTOSResult updateOTOS();
 
+// extern QwiicOTOS otos;
+
 bool trySetupOTOS(bool calibrate = true);
+
+void recoverOTOS();

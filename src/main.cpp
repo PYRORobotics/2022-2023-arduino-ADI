@@ -6,6 +6,7 @@
 #include "cobs/cobs.h"
 #include "otos.hpp"
 #include "proto/messages.pb.h"
+#include "sfeQwiicOtos.h"
 #include <cobs/Print.h>
 #include <cobs/Stream.h>
 #include <pb_arduino.h>
@@ -15,8 +16,6 @@
 #define RE 8
 #define SEND HIGH
 #define RECEIVE LOW
-
-uint8_t data[512];
 
 #define ITERATION_DELAY_MS 10
 #define NAVX_SENSOR_DEVICE_I2C_ADDRESS_7BIT 0x32
@@ -51,19 +50,13 @@ void setup() {
   Serial.println("setup!");
 }
 // int32_t i = 5;
-char encode_buff[30];
-char decode_buff[30];
-char buff_cobs[30];
+char encode_buff[100];
+char decode_buff[100];
+char buff_cobs[100];
 char print_buff[20];
-void readWrite(Status status) {
-  // send data////////////////////////////////////
-  // sprintf(print_buf, "empty send buf size: %d\n\r", serial_free);
-  // Serial.print(print_buf);
-  // while(Serial.available() > 0) {
-  //   Serial.read();
-  // }
+
+void sendMessage(Pose pose) {
   while (!Serial.availableForWrite()) {
-    delayMicroseconds(10);
   }
   digitalWrite(DE, SEND);
   digitalWrite(RE, SEND);
@@ -77,7 +70,7 @@ void readWrite(Status status) {
   // Serial.flush();
   // Serial.println("encode buf!");
   // delay(200);
-  bool success = pb_encode(&pb_out, Status_fields, &status);
+  bool success = pb_encode(&pb_out, Pose_fields, &pose);
 
   // Serial.println("protobuf encode!");
   // delay(200);
@@ -117,17 +110,9 @@ void readWrite(Status status) {
   } else {
     digitalWrite(3, LOW);
   }
+}
 
-  // delayMicroseconds(100);
-  // while (Serial.available()) {
-  //   Serial.read();
-  // }
-  // delayMicroseconds(200); //TODO: this should instead be a wait until the tx
-  // buffer is empty delayMicroseconds(500); //TODO: this should instead be a
-  // wait until the tx buffer is empty
-  // Serial.flush();
-  // delayMicroseconds(
-  // 1000); // TODO: this should instead be a wait until the tx buffer is empty
+void receiveMessage() {
   digitalWrite(DE, RECEIVE);
   digitalWrite(RE, RECEIVE);
 
@@ -138,7 +123,6 @@ void readWrite(Status status) {
   unsigned int n = 0;
   bool done = false;
   while (Serial.available() == 0 && micros() - startTime < MAX_READ_TIME) {
-    delay(1);
   }
   while (!done && micros() - startTime < MAX_READ_TIME) {
     while (!done && Serial.available() > 0) {
@@ -208,23 +192,55 @@ void readWrite(Status status) {
 
   pb_istream_t istream =
       pb_istream_from_buffer((uint8_t *)decode_buff, (size_t)result.out_len);
-  success = pb_decode(&istream, Command_fields, &command_tmp);
+  bool success = pb_decode(&istream, Command_fields, &command_tmp);
   if (success) {
     /*sprintf(print_buf, "D1: %d, D2: %d\n\r", command_tmp.out_1,
     command_tmp.out_2); Serial.print(print_buf);*/
     command = command_tmp;
     // Serial.println("success!");
-    if (command.reset) {
+    if (command.has_reset && command.reset) {
       Serial.println("resetting!");
       digitalWrite(3, HIGH);
-      trySetupOTOS();
+      trySetupOTOS(false);
       delay(1000);
       digitalWrite(3, LOW);
     }
+
+    if (command.has_calibrate && command.calibrate) {
+      Serial.println("calibrating!");
+      digitalWrite(3, HIGH);
+      trySetupOTOS(true);
+      delay(1000);
+      digitalWrite(3, LOW);
+    }
+
+    // if (command.has_scalar) {
+    //   Serial.println("set scalar!");
+    //   otos.setAngularScalar(command.scalar.angular);
+    //   otos.setLinearScalar(command.scalar.linear);
+    //   delay(1000);
+    // }
+
+    // if (command.has_offset) {
+    //   Serial.println("set offset!");
+    //   sfe_otos_pose2d_t pose;
+    //   pose.x = command.offset.x;
+    //   pose.y = command.offset.y;
+    //   pose.h = command.offset.heading;
+    //   otos.setOffset(pose);
+    //   delay(1000);
+    // }
+
+    // if (command.has_set_pose) {
+    //   Serial.println("set pose!");
+    //   sfe_otos_pose2d_t pose;
+    //   pose.x = command.set_pose.x;
+    //   pose.y = command.set_pose.y;
+    //   pose.h = command.set_pose.heading;
+    //   otos.setPosition(pose);
+    //   delay(1000);
+    // }
   } else {
-    digitalWrite(3, HIGH);
-    // Serial.println("womp womp");
-    digitalWrite(3, LOW);
     // sprintf(print_buf, "Decoding failed: %s\n\r", PB_GET_ERROR(&istream));
     // Serial.print(print_buf);
     // delay(1);
@@ -232,19 +248,20 @@ void readWrite(Status status) {
 }
 
 void loop() {
-  Status status = Status_init_zero;
+  Pose pose = Pose_init_zero;
   // status.has_heading = true;
   // status.heading = 69;
 
   // Serial.println(otosInitialized);
   if (otosInitialized) {
     auto result = updateOTOS();
-    status = result.status;
+    pose = result.pose;
     if (result.code != 0) {
       if (millis() - sparkfunTimeout > 500) {
-        otosInitialized = false;
+        recoverOTOS();
       }
     } else {
+      sendMessage(pose);
       sparkfunTimeout = millis();
     }
   } else {
@@ -255,13 +272,14 @@ void loop() {
       sparkfunTimeout = millis();
     }
   }
-
+        // std::byte buf[255];
+        // log_msg("waiting for message\n");
   // Serial.println(status.has_pos);
   // Serial.println(status.pos.x);
   // Serial.println(status.pos.y);
   // Serial.println(status.heading);
   // Serial.print("\n\n");
 
-  readWrite(status);
-  delay(20);
+  receiveMessage();
+  delay(1);
 }

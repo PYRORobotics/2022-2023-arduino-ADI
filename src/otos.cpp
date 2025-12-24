@@ -5,26 +5,24 @@
 #include "sfeQwiicOtos.h"
 #include <SparkFun_Qwiic_OTOS_Arduino_Library.h>
 
-QwiicOTOS otos;
+QwiicOTOS otos = QwiicOTOS();
 
 OTOSResult updateOTOS() {
   // Get the latest position, which includes the x and y coordinates, plus the
   // heading angle
-  sfe_otos_pose2d_t pose;
-  int success = otos.getPosition(pose);
+  sfe_otos_pose2d_t otos_pose;
+  int success = otos.getPosition(otos_pose);
 
-  Status status = Status_init_zero;
+  Pose pose = Pose_init_zero;
   // pose.x = myPosition.x;
   // pose.y = myPosition.y;
   // pose.heading = myPosition.h;
   if (success == 0) {
-    status.has_pos = true;
-    status.pos.x = pose.x;
-    status.pos.y = pose.y;
-    status.has_heading = true;
-    status.heading = pose.h;
+    pose.x = otos_pose.x;
+    pose.y = otos_pose.y;
+    pose.heading = otos_pose.h;
   }
-  return OTOSResult{status, success};
+  return OTOSResult{pose, success};
 
   // Print measurement
   // Serial.println();
@@ -58,14 +56,6 @@ bool trySetupOTOS(bool calibrate) {
   // while (!Serial.available())
   //     ;
 
-  otos.setAngularScalar(0.992283447043);
-  //0.992283447043 24in
-  //0.999977778272 15in  
-
-  // otos.setLinearScalar(1.127);
-  otos.setLinearScalar(0.961484917851);
-  // otos.setAngularScalar(1);
-
   // delay(2000);
   if (calibrate) {
     Serial.println("Calibrating IMU...");
@@ -75,7 +65,24 @@ bool trySetupOTOS(bool calibrate) {
 
     // Reset the tracking algorithm - this resets the position to the origin,
     // but can also be used to recover from some rare tracking errors
-    otos.resetTracking();
   }
+  otos.resetTracking();
   return true;
+}
+
+void recoverOTOS() {
+  float ang;
+  float lin;
+  sfe_otos_pose2d_t off;
+  sfe_otos_pose2d_t pose;
+  otos.getAngularScalar(ang);
+  otos.getLinearScalar(lin);
+  otos.getOffset(off);
+  otos.getPosition(pose);
+
+  trySetupOTOS(false);
+  otos.setAngularScalar(ang);
+  otos.setLinearScalar(lin);
+  otos.setOffset(off);
+  otos.setPosition(pose);
 }
