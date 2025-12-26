@@ -20,7 +20,7 @@
 #define ITERATION_DELAY_MS 10
 #define NAVX_SENSOR_DEVICE_I2C_ADDRESS_7BIT 0x32
 #define NUM_BYTES_TO_READ 8
-#define MAX_READ_TIME 10000
+#define MAX_READ_TIME 1000
 
 // packetio::COBSStream cobs_in(Serial);
 // pb_istream_s pb_in = as_pb_istream(cobs_in);
@@ -50,10 +50,19 @@ void setup() {
   Serial.println("setup!");
 }
 // int32_t i = 5;
-char encode_buff[100];
-char decode_buff[100];
-char buff_cobs[100];
-char print_buff[20];
+uint8_t encode_buff[100];
+uint8_t decode_buff[100];
+uint8_t buff_cobs[100];
+uint8_t print_buff[20];
+
+void dumpBytes(const uint8_t *buf, size_t len) {
+  for (size_t i = 0; i < len; i++) {
+    if (buf[i] < 0x10) Serial.print('0');
+    Serial.print(buf[i], HEX);
+    Serial.print(' ');
+  }
+  Serial.println();
+}
 
 void sendMessage(Pose pose) {
   while (!Serial.availableForWrite()) {
@@ -85,7 +94,7 @@ void sendMessage(Pose pose) {
   bool write_success = true;
 
   cobs_encode_result encodeResult =
-      cobs_encode_mine(&buff_cobs, 30, &encode_buff, pb_out.bytes_written);
+      cobs_encode_mine(buff_cobs, 30, &encode_buff, pb_out.bytes_written);
   if (encodeResult.status != COBS_ENCODE_OK) {
     printf("COBS encode failed!\n");
     // printf("COBS status: %d\n", result.status);
@@ -95,7 +104,8 @@ void sendMessage(Pose pose) {
   buff_cobs[encodeResult.out_len] = '\0';
   // Serial.println(encodeResult.out_len + 1);
   // delay(500);
-  Serial.write((uint8_t *)&buff_cobs, encodeResult.out_len + 1);
+  // dumpBytes(buff_cobs, encodeResult.out_len + 1);
+  Serial.write(buff_cobs, encodeResult.out_len + 1);
   // delay(2);
   // cobs_in.flush();
   Serial.flush();
@@ -191,55 +201,15 @@ void receiveMessage() {
   }
 
   pb_istream_t istream =
-      pb_istream_from_buffer((uint8_t *)decode_buff, (size_t)result.out_len);
+      pb_istream_from_buffer(decode_buff, (size_t)result.out_len);
   bool success = pb_decode(&istream, Command_fields, &command_tmp);
   if (success) {
     /*sprintf(print_buf, "D1: %d, D2: %d\n\r", command_tmp.out_1,
     command_tmp.out_2); Serial.print(print_buf);*/
     command = command_tmp;
     // Serial.println("success!");
-    if (command.has_reset && command.reset) {
-      Serial.println("resetting!");
-      digitalWrite(3, HIGH);
-      trySetupOTOS(false);
-      delay(1000);
-      digitalWrite(3, LOW);
-    }
 
-    if (command.has_calibrate && command.calibrate) {
-      Serial.println("calibrating!");
-      digitalWrite(3, HIGH);
-      trySetupOTOS(true);
-      delay(1000);
-      digitalWrite(3, LOW);
-    }
-
-    // if (command.has_scalar) {
-    //   Serial.println("set scalar!");
-    //   otos.setAngularScalar(command.scalar.angular);
-    //   otos.setLinearScalar(command.scalar.linear);
-    //   delay(1000);
-    // }
-
-    // if (command.has_offset) {
-    //   Serial.println("set offset!");
-    //   sfe_otos_pose2d_t pose;
-    //   pose.x = command.offset.x;
-    //   pose.y = command.offset.y;
-    //   pose.h = command.offset.heading;
-    //   otos.setOffset(pose);
-    //   delay(1000);
-    // }
-
-    // if (command.has_set_pose) {
-    //   Serial.println("set pose!");
-    //   sfe_otos_pose2d_t pose;
-    //   pose.x = command.set_pose.x;
-    //   pose.y = command.set_pose.y;
-    //   pose.h = command.set_pose.heading;
-    //   otos.setPosition(pose);
-    //   delay(1000);
-    // }
+    processOTOSCommand(command);
   } else {
     // sprintf(print_buf, "Decoding failed: %s\n\r", PB_GET_ERROR(&istream));
     // Serial.print(print_buf);
@@ -281,5 +251,5 @@ void loop() {
   // Serial.print("\n\n");
 
   receiveMessage();
-  delay(1);
+  // delayMicroseconds(unsigned int us));
 }

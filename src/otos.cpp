@@ -86,3 +86,48 @@ void recoverOTOS() {
   otos.setOffset(off);
   otos.setPosition(pose);
 }
+
+void processOTOSCommand(Command command) {
+  if (command.has_reset && command.reset) {
+    Serial.println("resetting!");
+    digitalWrite(3, HIGH);
+    trySetupOTOS(false);
+    delay(1000);
+    digitalWrite(3, LOW);
+  }
+
+  if (command.has_calibrate && command.calibrate) {
+    Serial.println("calibrating!");
+    digitalWrite(3, HIGH);
+    trySetupOTOS(true);
+    delay(1000);
+    digitalWrite(3, LOW);
+  }
+
+  if (command.has_scalar) {
+    Serial.println("set scalar!");
+    otos.setAngularScalar(command.scalar.angular);
+    otos.setLinearScalar(command.scalar.linear);
+    delay(1000);
+  }
+
+  if (command.has_offset) {
+    Serial.println("set offset!");
+    sfe_otos_pose2d_t pose;
+    pose.x = command.offset.x;
+    pose.y = command.offset.y;
+    pose.h = command.offset.heading;
+    otos.setOffset(pose);
+    delay(1000);
+  }
+
+  if (command.has_set_pose) {
+    Serial.println("set pose!");
+    sfe_otos_pose2d_t pose;
+    pose.x = command.set_pose.x;
+    pose.y = command.set_pose.y;
+    pose.h = command.set_pose.heading;
+    otos.setPosition(pose);
+    delay(1000);
+  }
+}

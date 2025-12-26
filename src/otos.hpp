@@ -9,6 +9,8 @@ struct OTOSResult {
 
 OTOSResult updateOTOS();
 
+void processOTOSCommand(Command command);
+
 // extern QwiicOTOS otos;
 
 bool trySetupOTOS(bool calibrate = true);
