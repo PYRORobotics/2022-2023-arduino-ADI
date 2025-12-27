@@ -2,7 +2,6 @@
 #include "Arduino.h"
 #include "Wire.h"
 #include "proto/messages.pb.h"
-#include "sfeQwiicOtos.h"
 #include <SparkFun_Qwiic_OTOS_Arduino_Library.h>
 
 QwiicOTOS otos = QwiicOTOS();
@@ -87,47 +86,52 @@ void recoverOTOS() {
   otos.setPosition(pose);
 }
 
-void processOTOSCommand(Command command) {
+void processOTOSCommand(const Command& command) {
   if (command.has_reset && command.reset) {
-    Serial.println("resetting!");
+    // Serial.println("resetting!");
+    // Serial.flush();
     digitalWrite(3, HIGH);
     trySetupOTOS(false);
-    delay(1000);
+    // delay(1000);
     digitalWrite(3, LOW);
   }
 
   if (command.has_calibrate && command.calibrate) {
-    Serial.println("calibrating!");
+    // Serial.println("calibrating!");
+    // Serial.flush();
     digitalWrite(3, HIGH);
     trySetupOTOS(true);
-    delay(1000);
     digitalWrite(3, LOW);
   }
 
   if (command.has_scalar) {
-    Serial.println("set scalar!");
-    otos.setAngularScalar(command.scalar.angular);
+    // Serial.println("set scalar!");
+    // Serial.println(command.scalar.angular);
+    // Serial.println(command.scalar.linear);
+    // Serial.flush();
     otos.setLinearScalar(command.scalar.linear);
-    delay(1000);
+    otos.setAngularScalar(command.scalar.angular);
+    // Serial.println("done setting scalar!");
+    // Serial.flush();
   }
 
   if (command.has_offset) {
     Serial.println("set offset!");
+    Serial.flush();
     sfe_otos_pose2d_t pose;
     pose.x = command.offset.x;
     pose.y = command.offset.y;
     pose.h = command.offset.heading;
     otos.setOffset(pose);
-    delay(1000);
   }
 
   if (command.has_set_pose) {
     Serial.println("set pose!");
+    Serial.flush();
     sfe_otos_pose2d_t pose;
     pose.x = command.set_pose.x;
     pose.y = command.set_pose.y;
     pose.h = command.set_pose.heading;
     otos.setPosition(pose);
-    delay(1000);
   }
 }

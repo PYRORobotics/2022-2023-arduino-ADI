@@ -9,7 +9,7 @@ struct OTOSResult {
 
 OTOSResult updateOTOS();
 
-void processOTOSCommand(Command command);
+void processOTOSCommand(const Command& command);
 
 // extern QwiicOTOS otos;
 

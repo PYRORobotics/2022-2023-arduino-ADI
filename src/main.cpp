@@ -6,7 +6,6 @@
 #include "cobs/cobs.h"
 #include "otos.hpp"
 #include "proto/messages.pb.h"
-#include "sfeQwiicOtos.h"
 #include <cobs/Print.h>
 #include <cobs/Stream.h>
 #include <pb_arduino.h>
@@ -20,7 +19,8 @@
 #define ITERATION_DELAY_MS 10
 #define NAVX_SENSOR_DEVICE_I2C_ADDRESS_7BIT 0x32
 #define NUM_BYTES_TO_READ 8
-#define MAX_READ_TIME 1000
+#define MAX_READ_WAIT_TIME 1000
+#define MAX_READ_TIME 20000
 
 // packetio::COBSStream cobs_in(Serial);
 // pb_istream_s pb_in = as_pb_istream(cobs_in);
@@ -29,7 +29,6 @@
 // pb_ostream_s pb_out = as_pb_ostream(cobs_out);
 // pb_ostream_s pb_out = as_pb_ostream(Serial);
 
-Command command = Command_init_zero;
 bool otosInitialized = false;
 bool hasCalibrated = false;
 unsigned long sparkfunTimeout = millis();
@@ -41,7 +40,7 @@ void setup() {
   pinMode(6, OUTPUT);
   pinMode(7, OUTPUT);
   Wire.begin();
-  delay(5000);
+  delay(20);
   otosInitialized = trySetupOTOS();
   if (otosInitialized) {
     hasCalibrated = true;
@@ -50,21 +49,26 @@ void setup() {
   Serial.println("setup!");
 }
 // int32_t i = 5;
-uint8_t encode_buff[100];
-uint8_t decode_buff[100];
-uint8_t buff_cobs[100];
-uint8_t print_buff[20];
 
 void dumpBytes(const uint8_t *buf, size_t len) {
   for (size_t i = 0; i < len; i++) {
-    if (buf[i] < 0x10) Serial.print('0');
+    if (buf[i] < 0x10)
+      Serial.print('0');
     Serial.print(buf[i], HEX);
     Serial.print(' ');
   }
   Serial.println();
 }
 
+extern int __heap_start, *__brkval;
+int freeRam() {
+  int v;
+  return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
+}
+
 void sendMessage(Pose pose) {
+  uint8_t encode_buff[100];
+  uint8_t buff_cobs[100];
   while (!Serial.availableForWrite()) {
   }
   digitalWrite(DE, SEND);
@@ -75,7 +79,8 @@ void sendMessage(Pose pose) {
   // Serial.flush();
   // Serial.println("basic setup!");
   // delay(500);
-  pb_ostream_s pb_out = pb_ostream_from_buffer((uint8_t *)&encode_buff, 30);
+  pb_ostream_s pb_out =
+      pb_ostream_from_buffer(encode_buff, sizeof(encode_buff));
   // Serial.flush();
   // Serial.println("encode buf!");
   // delay(200);
@@ -93,15 +98,15 @@ void sendMessage(Pose pose) {
   }
   bool write_success = true;
 
-  cobs_encode_result encodeResult =
-      cobs_encode_mine(buff_cobs, 30, &encode_buff, pb_out.bytes_written);
+  cobs_encode_result encodeResult = cobs_encode_mine(
+      buff_cobs, sizeof(buff_cobs), encode_buff, pb_out.bytes_written);
   if (encodeResult.status != COBS_ENCODE_OK) {
     printf("COBS encode failed!\n");
     // printf("COBS status: %d\n", result.status);
     digitalWrite(3, HIGH);
     delay(500);
   }
-  buff_cobs[encodeResult.out_len] = '\0';
+  buff_cobs[encodeResult.out_len] = 0x00;
   // Serial.println(encodeResult.out_len + 1);
   // delay(500);
   // dumpBytes(buff_cobs, encodeResult.out_len + 1);
@@ -109,6 +114,7 @@ void sendMessage(Pose pose) {
   // delay(2);
   // cobs_in.flush();
   Serial.flush();
+  delayMicroseconds(100);
   // cobs_out.end();
 
   if (!write_success) {
@@ -123,27 +129,42 @@ void sendMessage(Pose pose) {
 }
 
 void receiveMessage() {
+  Serial.println("reading!");
   digitalWrite(DE, RECEIVE);
   digitalWrite(RE, RECEIVE);
 
   Command command_tmp = Command_init_zero;
-  char read_buff[100];
+  uint8_t read_buff[100];
+  uint8_t decode_buff[100];
   unsigned long startTime = micros();
 
   unsigned int n = 0;
   bool done = false;
-  while (Serial.available() == 0 && micros() - startTime < MAX_READ_TIME) {
+  while (Serial.available() == 0 && micros() - startTime < MAX_READ_WAIT_TIME) {
   }
+  startTime = micros();
   while (!done && micros() - startTime < MAX_READ_TIME) {
     while (!done && Serial.available() > 0) {
-      if (micros() - startTime >= MAX_READ_TIME)
+      if (micros() - startTime >= MAX_READ_TIME) {
         break;
+      }
       byte byte = Serial.read();
       // printf("waiting for byte\n");
+
+      if (n >= sizeof(read_buff)) {
+        done = true;
+        break;
+      }
       read_buff[n] = byte;
+
+      Serial.print(n);
+      if (byte < 0x10)
+        Serial.print('0');
+      Serial.print(byte, HEX);
+      Serial.print(' ');
       // printf("received a byte: %02X\n", byte);
       n++;
-      if (byte == '\0' || n >= 100) {
+      if (byte == 0x00 || n >= 100) {
         done = true;
         break;
       }
@@ -153,15 +174,23 @@ void receiveMessage() {
     while (Serial.available() == 0 && micros() - startTime < MAX_READ_TIME) {
     }
   }
+  if (micros() - startTime >= MAX_READ_TIME) {
+    Serial.println("TIMEOUT!");
+    delay(1000);
+  }
+  Serial.println();
+  Serial.flush();
 
-  if (n == 0) return;
+  if (n == 0)
+    return;
 
   // cobs_in.next();
   cobs_decode_result result =
-      cobs_decode(&decode_buff, sizeof(decode_buff), &read_buff, n - 1);
+      cobs_decode(decode_buff, sizeof(decode_buff), read_buff, n - 1);
 
   if (result.status != COBS_DECODE_OK) {
     Serial.println("cobs decode failed :(");
+    dumpBytes(decode_buff, n - 1);
     delay(5000);
     return;
     // sprintf(print_buf, "cobs fail status: %\n\r", result.status);
@@ -204,12 +233,17 @@ void receiveMessage() {
       pb_istream_from_buffer(decode_buff, (size_t)result.out_len);
   bool success = pb_decode(&istream, Command_fields, &command_tmp);
   if (success) {
+    Serial.println("sucess!");
+    Serial.println(freeRam());
+    Serial.flush();
     /*sprintf(print_buf, "D1: %d, D2: %d\n\r", command_tmp.out_1,
     command_tmp.out_2); Serial.print(print_buf);*/
-    command = command_tmp;
+    // command = command_tmp;
     // Serial.println("success!");
-
-    processOTOSCommand(command);
+    Serial.println(freeRam());
+    processOTOSCommand(command_tmp);
+    // updateOTOS();
+    Serial.println(freeRam());
   } else {
     // sprintf(print_buf, "Decoding failed: %s\n\r", PB_GET_ERROR(&istream));
     // Serial.print(print_buf);
@@ -242,8 +276,10 @@ void loop() {
       sparkfunTimeout = millis();
     }
   }
-        // std::byte buf[255];
-        // log_msg("waiting for message\n");
+
+  Serial.println(freeRam());
+  // std::byte buf[255];
+  // log_msg("waiting for message\n");
   // Serial.println(status.has_pos);
   // Serial.println(status.pos.x);
   // Serial.println(status.pos.y);
