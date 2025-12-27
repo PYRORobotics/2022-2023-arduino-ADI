@@ -129,7 +129,6 @@ void sendMessage(Pose pose) {
 }
 
 void receiveMessage() {
-  Serial.println("reading!");
   digitalWrite(DE, RECEIVE);
   digitalWrite(RE, RECEIVE);
 
@@ -157,11 +156,11 @@ void receiveMessage() {
       }
       read_buff[n] = byte;
 
-      Serial.print(n);
-      if (byte < 0x10)
-        Serial.print('0');
-      Serial.print(byte, HEX);
-      Serial.print(' ');
+      // Serial.print(n);
+      // if (byte < 0x10)
+      //   Serial.print('0');
+      // Serial.print(byte, HEX);
+      // Serial.print(' ');
       // printf("received a byte: %02X\n", byte);
       n++;
       if (byte == 0x00 || n >= 100) {
@@ -174,12 +173,6 @@ void receiveMessage() {
     while (Serial.available() == 0 && micros() - startTime < MAX_READ_TIME) {
     }
   }
-  if (micros() - startTime >= MAX_READ_TIME) {
-    Serial.println("TIMEOUT!");
-    delay(1000);
-  }
-  Serial.println();
-  Serial.flush();
 
   if (n == 0)
     return;
@@ -233,17 +226,12 @@ void receiveMessage() {
       pb_istream_from_buffer(decode_buff, (size_t)result.out_len);
   bool success = pb_decode(&istream, Command_fields, &command_tmp);
   if (success) {
-    Serial.println("sucess!");
-    Serial.println(freeRam());
-    Serial.flush();
     /*sprintf(print_buf, "D1: %d, D2: %d\n\r", command_tmp.out_1,
     command_tmp.out_2); Serial.print(print_buf);*/
     // command = command_tmp;
     // Serial.println("success!");
-    Serial.println(freeRam());
     processOTOSCommand(command_tmp);
     // updateOTOS();
-    Serial.println(freeRam());
   } else {
     // sprintf(print_buf, "Decoding failed: %s\n\r", PB_GET_ERROR(&istream));
     // Serial.print(print_buf);
@@ -277,7 +265,6 @@ void loop() {
     }
   }
 
-  Serial.println(freeRam());
   // std::byte buf[255];
   // log_msg("waiting for message\n");
   // Serial.println(status.has_pos);
